@@ -1,0 +1,66 @@
+version: "3.9"
+
+# Runs the full FinRAG stack locally with one command:
+#   docker-compose up
+#
+# Services:
+#   qdrant   — vector database on port 6333
+#   rag      — Python FastAPI service on port 8000
+#   gateway  — Java Spring Boot service on port 8080
+#
+# Prerequisites:
+#   - Docker Desktop installed and running
+#   - .env file in finrag-rag/ with your API keys
+
+services:
+
+  # ── Qdrant vector database ──────────────────────────────────────────────────
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"     # REST API
+      - "6334:6334"     # gRPC
+    volumes:
+      - qdrant_data:/qdrant/storage   # persist vectors between restarts
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Python RAG service ──────────────────────────────────────────────────────
+  rag:
+    build:
+      context: ./finrag-rag
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./finrag-rag/.env       # your API keys go here
+    environment:
+      - QDRANT_URL=http://qdrant:6333   # use docker service name, not localhost
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  # ── Java Spring Boot gateway ────────────────────────────────────────────────
+  gateway:
+    build:
+      context: ./finrag-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - FINRAG_RAG_SERVICE_URL=http://rag:8000   # use docker service name
+      - FINRAG_JWT_SECRET=${FINRAG_JWT_SECRET:-changeme-replace-in-production-min-32-chars}
+    depends_on:
+      rag:
+        condition: service_healthy
+
+volumes:
+  qdrant_data:    # named volume so vectors survive docker-compose down
