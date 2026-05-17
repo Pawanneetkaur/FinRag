@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+finrag:
+  # URL of the Python RAG service — change to the deployed URL in production
+  rag-service-url: http://localhost:8000
+
+  # JWT secret key — must be at least 256 bits (32 chars) for HS256
+  # In production, set this via environment variable: FINRAG_JWT_SECRET=...
+  jwt-secret: ${FINRAG_JWT_SECRET:changeme-replace-in-production-min-32-chars}
+
+  # Token validity in milliseconds (default: 24 hours)
+  jwt-expiration-ms: 86400000
+
+spring:
+  application:
+    name: finrag-gateway
+
+logging:
+  level:
+    com.finrag: DEBUG        # verbose logging for our code
+    org.springframework: INFO
