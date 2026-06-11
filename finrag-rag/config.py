@@ -14,8 +14,8 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
 
-    # ── Anthropic (Claude) ────────────────────────────────────────────────────
-    ANTHROPIC_API_KEY: str = ""
+    # ── Groq (Llama 3.2 generation) ───────────────────────────────────────────
+    GROQ_API_KEY: str = ""
 
     # ── OpenAI (embeddings) ───────────────────────────────────────────────────
     OPENAI_API_KEY: str = ""

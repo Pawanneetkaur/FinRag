@@ -91,8 +91,8 @@ def chunk_documents(documents: list[Document]) -> list[Document]:
     - Gets additional metadata: section_name, chunk_index
 
     Usage:
-        from fetcher import fetch_10k
-        from chunker import chunk_documents
+        from app.ingestion.fetcher import fetch_10k
+        from app.ingestion.chunker import chunk_documents
 
         docs   = fetch_10k("AAPL")
         chunks = chunk_documents(docs)

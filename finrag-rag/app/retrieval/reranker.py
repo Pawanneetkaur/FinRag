@@ -24,7 +24,7 @@ Main class:
 """
 
 from sentence_transformers import CrossEncoder
-from query_engine import RetrievedChunk
+from app.retrieval.query_engine import RetrievedChunk
 from config import settings
 
 

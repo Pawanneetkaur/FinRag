@@ -15,8 +15,8 @@ from dataclasses import dataclass
 from qdrant_client import QdrantClient
 from qdrant_client.models import Filter, FieldCondition, MatchValue, MatchAny
 
-from embedder import embedder
-from config   import settings
+from app.ingestion.embedder import embedder
+from config import settings
 
 
 @dataclass

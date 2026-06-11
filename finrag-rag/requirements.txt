@@ -1,0 +1,25 @@
+# Web framework
+fastapi
+uvicorn[standard]
+
+# Settings / validation
+pydantic
+pydantic-settings
+
+# Vector database
+qdrant-client
+
+# Document abstraction + chunking
+llama-index-core
+
+# Embeddings (OpenAI text-embedding-3-small)
+openai
+
+# LLM generation (Llama 3.2 via Groq)
+groq
+
+# Cross-encoder reranking
+sentence-transformers
+
+# HTTP calls (EDGAR, NewsAPI)
+requests

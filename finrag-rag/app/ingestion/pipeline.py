@@ -26,10 +26,10 @@ from qdrant_client.models import (
 )
 import uuid
 
-from fetcher  import fetch_10k, fetch_news
-from chunker  import chunk_documents
-from embedder import embedder
-from config   import settings
+from app.ingestion.fetcher  import fetch_10k, fetch_news
+from app.ingestion.chunker  import chunk_documents
+from app.ingestion.embedder import embedder
+from config import settings
 
 
 # ── Qdrant client (connects to local or remote Qdrant instance) ───────────────
